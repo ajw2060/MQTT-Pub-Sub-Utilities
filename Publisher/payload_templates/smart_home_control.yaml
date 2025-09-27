@@ -1,0 +1,131 @@
+# Smart Home Control Template
+# Demonstrates complex dynamic field dependencies with multiple levels
+
+template: |
+  {
+    "device_type": "{device_type}",
+    "device_id": "{device_id}",
+    "command": "{command}",
+    "value": {value},
+    "temperature": {temperature},
+    "humidity": {humidity},
+    "fan_speed": {fan_speed},
+    "light_brightness": {light_brightness},
+    "light_color": "{light_color}",
+    "light_mode": "{light_mode}",
+    "security_level": "{security_level}",
+    "motion_sensitivity": {motion_sensitivity},
+    "notification_enabled": {notification_enabled},
+    "timestamp": "{timestamp}",
+    "sender": "{sender}"
+  }
+
+fields:
+  # Device type selection - this controls what other fields appear
+  - name: device_type
+    prompt: "Device Type"
+    help: "Select the type of device to control"
+    choices: ["thermostat", "light", "fan", "security", "generic"]
+    default: "generic"
+
+  - name: device_id
+    prompt: "Device ID"
+    help: "Target device identifier"
+    default: "device-001"
+
+  - name: command
+    prompt: "Command"
+    help: "Command to send to the device"
+    choices: ["set", "get", "reset", "status"]
+    default: "set"
+
+  # Generic value field - always visible
+  - name: value
+    prompt: "Value"
+    help: "Generic numeric value"
+    default: 0
+    range:
+      min: 0
+      max: 100
+
+  # Thermostat-specific fields
+  - name: temperature
+    prompt: "Temperature (°C)"
+    help: "Target temperature in Celsius"
+    default: 22
+    range:
+      min: 10
+      max: 35
+    depends_on: "device_type:thermostat"
+
+  - name: humidity
+    prompt: "Humidity (%)"
+    help: "Target humidity percentage"
+    default: 50
+    range:
+      min: 20
+      max: 80
+    depends_on: "device_type:thermostat"
+
+  # Fan-specific fields
+  - name: fan_speed
+    prompt: "Fan Speed"
+    help: "Fan speed level (1-5)"
+    default: 3
+    range:
+      min: 1
+      max: 5
+    depends_on: "device_type:fan"
+
+  # Light-specific fields
+  - name: light_brightness
+    prompt: "Light Brightness"
+    help: "Light brightness level (0-100)"
+    default: 75
+    range:
+      min: 0
+      max: 100
+    depends_on: "device_type:light"
+
+  - name: light_color
+    prompt: "Light Color"
+    help: "Light color (hex code or name)"
+    default: "#FFFFFF"
+    depends_on: "device_type:light"
+
+  - name: light_mode
+    prompt: "Light Mode"
+    help: "Light operating mode"
+    choices: ["normal", "dim", "bright", "night", "party"]
+    default: "normal"
+    depends_on: "device_type:light"
+
+  # Security-specific fields
+  - name: security_level
+    prompt: "Security Level"
+    help: "Security alert level"
+    choices: ["low", "medium", "high", "critical"]
+    default: "medium"
+    depends_on: "device_type:security"
+
+  - name: motion_sensitivity
+    prompt: "Motion Sensitivity"
+    help: "Motion detection sensitivity (1-10)"
+    default: 5
+    range:
+      min: 1
+      max: 10
+    depends_on: "device_type:security"
+
+  - name: notification_enabled
+    prompt: "Notifications Enabled"
+    help: "Whether to send notifications"
+    choices: ["true", "false"]
+    default: "true"
+    depends_on: "device_type:security"
+
+# This template demonstrates:
+# 1. Single dependency: Fields that depend on one parent field
+# 2. Multiple values: Fields that show for multiple device types
+# 3. Complex forms: Different sets of fields for different device types
+# 4. Mixed field types: Dropdowns, ranges, and text fields with dependencies

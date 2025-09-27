@@ -1,0 +1,52 @@
+# Light Control Template
+description: Control Garden Spotlights
+fields:
+  - name: light_id
+    prompt: Enter Spotlight Name
+    help: The identifier for the light or light group to control (e.g., spot-1, spot-all)
+    choices: [spot-1, goldfish, giraffe, spot-3, spot-2, spot-4]
+    default: spot-3
+
+  - name: action
+    prompt: Select Action
+    help: The action to perform - 'on' to turn the light on, 'off' to turn it off
+    choices: [on, off, flash]
+    default: on
+
+  - name: duration
+    prompt: Enter the on-duration (seconds)
+    help: If the duration is entered, the light will automatically turn off after this period.
+    default: 20
+    depends_on: "action:on, flash"
+
+  - name: rate
+    prompt: Enter flash rate
+    help: If the action is flash, this controls the rate in flashes per minute.
+    range:
+      min: 1
+      max: 1500
+    default: 100
+    depends_on: "action:flash"
+
+  - name: ratio
+    prompt: Enter ON/OFF ratio
+    help: The ratio defines the PWM (or on/off) ratio.  Higher means more on time. 
+    range: 
+      min: 0
+      max: 100
+    default: 21
+    depends_on: "action:flash"
+
+
+
+
+template: |
+  {
+    "light_id": "{{light_id}}",
+    "action": "{{action}}",
+    "duration": {{duration}},
+    "rate": {{rate}},
+    "ratio": {{ratio}},
+    "sender": "{{sender}}",
+    "timestamp": "{{timestamp}}"
+  }

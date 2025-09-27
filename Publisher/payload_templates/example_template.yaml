@@ -1,0 +1,132 @@
+# Example MQTT Payload Template
+# 
+# This is a well-documented example template that demonstrates the structure
+# and capabilities of the MQTT payload template system.
+
+# The template section defines the actual payload structure that will be sent.
+# It uses {variable} or {{variable}} syntax to insert field values.
+# The template will be rendered with the field values when publishing.
+template: |
+  {
+    "device_id": "{device_id}",
+    "command": "{command}",
+    "value": {value},
+    "timestamp": "{timestamp}",
+    "sender": "{sender}",
+    "metadata": {
+      "priority": "{priority}",
+      "retry_count": {retry_count},
+      "custom_message": "{custom_message}"
+    }
+  }
+
+# The fields section defines the input fields that will be presented to the user.
+# Each field can have the following properties:
+#   - name: The variable name used in the template (required)
+#   - prompt: The label displayed next to the input field
+#   - help: A tooltip that appears when hovering over the field
+#   - default: Default value for the field
+#   - choices: List of predefined options for dropdown/combobox fields (optional)
+fields:
+  # Device ID field - a required text field with a default value
+  - name: device_id
+    prompt: "Device ID"
+    help: "The unique identifier for the target device"
+    default: "device-001"
+
+  # Command field - a dropdown with predefined options
+  - name: command
+    prompt: "Command"
+    help: "The action to perform on the device"
+    choices: ["set", "get", "reset", "status", "configure"]
+    default: "set"
+
+  # Value field - a numeric input with range validation
+  - name: value
+    prompt: "Value"
+    help: "The numeric value to set"
+    default: 50
+    range:
+      min: 0
+      max: 100
+
+  # Priority field - a dropdown with predefined options
+  - name: priority
+    prompt: "Priority"
+    help: "Message priority level"
+    choices: ["low", "medium", "high", "critical"]
+    default: "medium"
+
+  # Retry count field - a numeric input with range validation
+  - name: retry_count
+    prompt: "Retry Count"
+    help: "Number of retry attempts"
+    default: 0
+    range:
+      min: 0
+      max: 5
+
+  # Custom message field - a text field without choices (free text input)
+  - name: custom_message
+    prompt: "Custom Message"
+    help: "Enter any custom message or notes (free text field)"
+    default: ""
+
+# Notes about the template system:
+# - The template section uses either {variable} or {{variable}} syntax
+# - All fields are treated as strings in the UI
+# - The system automatically adds 'timestamp' and 'sender' fields
+# - For dropdown/select fields, use the 'default' value to set the initial selection
+# - The 'required' flag only affects the UI validation, not the template rendering
+# - This assumes the receiving device can appropriately parse the received payload.
+# - When parsing the received payload, the receiver will normally ignore fields which are not used.  
+# - The "sender" and "timestamp" fields are of this type and are included for logging purposes.
+# - This template is a sample, and fields may be added or removed depending on the payload needed by the target device.
+
+# FIELD TYPES AND CONSTRAINTS:
+# 
+# The application now supports three types of input fields:
+#
+# 1. DROPDOWN/COMBOBOX FIELDS:
+#    - Add a 'choices' property with a list of predefined options
+#    - Example: choices: ["on", "off", "toggle"]
+#    - Users can only select from the provided options
+#    - Prevents typos and ensures data consistency
+#    - The 'default' value should be one of the choices
+#
+# 2. RANGE-CONSTRAINED INTEGER FIELDS:
+#    - Add a 'range' property with 'min' and 'max' values
+#    - Example: range: {min: 0, max: 100}
+#    - Users can only enter integer values within the specified range
+#    - Automatic validation with error messages for out-of-range values
+#    - The 'default' value should be within the range
+#
+# 3. TEXT ENTRY FIELDS:
+#    - Fields without 'choices' or 'range' properties become regular text entry fields
+#    - Users can type any value
+#    - Good for free-form text, device IDs, custom messages, etc.
+#
+# EXAMPLES:
+# 
+# Dropdown field (with choices):
+#   - name: action
+#     prompt: "Action"
+#     choices: ["on", "off", "toggle"]
+#     default: "on"
+#
+# Range-constrained integer field:
+#   - name: brightness
+#     prompt: "Brightness"
+#     help: "Brightness level"
+#     default: 50
+#     range:
+#       min: 0
+#       max: 100
+#
+# Text field (without constraints):
+#   - name: device_id
+#     prompt: "Device ID"
+#     default: "device-001"
+#
+# See test_combobox.yaml for more examples of mixed field types.
+

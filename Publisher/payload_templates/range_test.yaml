@@ -1,0 +1,47 @@
+# Test template for range constraint functionality
+template: |
+  {
+    "temperature": {temperature},
+    "humidity": {humidity},
+    "brightness": {brightness},
+    "volume": {volume},
+    "timestamp": "{timestamp}",
+    "sender": "{sender}"
+  }
+
+fields:
+  # Temperature field with range 0-50
+  - name: temperature
+    prompt: "Temperature (°C)"
+    help: "Temperature in Celsius"
+    default: 20
+    range:
+      min: 0
+      max: 50
+
+  # Humidity field with range 0-100
+  - name: humidity
+    prompt: "Humidity (%)"
+    help: "Humidity percentage"
+    default: 50
+    range:
+      min: 0
+      max: 100
+
+  # Brightness field with range 1-10
+  - name: brightness
+    prompt: "Brightness Level"
+    help: "Brightness level from 1 to 10"
+    default: 5
+    range:
+      min: 1
+      max: 10
+
+  # Volume field with range 0-11
+  - name: volume
+    prompt: "Volume"
+    help: "Volume level (0-11, like Spinal Tap)"
+    default: 5
+    range:
+      min: 0
+      max: 11

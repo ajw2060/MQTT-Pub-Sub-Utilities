@@ -1,0 +1,30 @@
+# Test Template with Combobox and Text Fields
+description: Test template demonstrating combobox and text entry fields
+fields:
+  - name: device_type
+    prompt: Device Type
+    help: Select the type of device to control
+    choices: [light, sensor, switch, thermostat, camera]
+    default: light
+  - name: action
+    prompt: Action
+    help: Select the action to perform
+    choices: [on, off, toggle, read, set]
+    default: on
+  - name: device_id
+    prompt: Device ID
+    help: Enter the unique identifier for the device
+    default: device-001
+  - name: custom_value
+    prompt: Custom Value
+    help: Enter any custom value (text field)
+    default: ""
+template: |
+  {
+    "device_type": "{{device_type}}",
+    "action": "{{action}}",
+    "device_id": "{{device_id}}",
+    "custom_value": "{{custom_value}}",
+    "sender": "{{sender}}",
+    "timestamp": "{{timestamp}}"
+  }

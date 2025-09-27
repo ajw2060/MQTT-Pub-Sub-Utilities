@@ -1,0 +1,93 @@
+# Dynamic Light Control Template
+# This template demonstrates dynamic field dependencies where certain fields
+# only appear when specific values are selected in other fields.
+
+template: |
+  {
+    "device_id": "{device_id}",
+    "action": "{action}",
+    "brightness": {brightness},
+    "color": "{color}",
+    "flash_rate": {flash_rate},
+    "on_off_ratio": {on_off_ratio},
+    "fade_duration": {fade_duration},
+    "fade_type": "{fade_type}",
+    "timestamp": "{timestamp}",
+    "sender": "{sender}"
+  }
+
+fields:
+  # Basic fields that are always visible
+  - name: device_id
+    prompt: "Device ID"
+    help: "Target device identifier"
+    default: "living_room_light"
+
+  - name: action
+    prompt: "Action"
+    help: "Light action to perform"
+    choices: ["on", "off", "toggle", "flash", "fade"]
+    default: "on"
+
+  - name: brightness
+    prompt: "Brightness"
+    help: "Brightness level (0-100)"
+    default: 75
+    range:
+      min: 0
+      max: 100
+
+  - name: color
+    prompt: "Color"
+    help: "Light color (hex code or name)"
+    default: "#FFFFFF"
+
+  # Dynamic fields that only appear when "flash" is selected
+  - name: flash_rate
+    prompt: "Flash Rate (Hz)"
+    help: "How fast the light flashes (1-10 Hz)"
+    default: 2
+    range:
+      min: 1
+      max: 10
+    depends_on: "action:flash"
+
+  - name: on_off_ratio
+    prompt: "On/Off Ratio"
+    help: "Ratio of on time to off time (0.1-2.0)"
+    default: 1.0
+    range:
+      min: 0.1
+      max: 2.0
+    depends_on: "action:flash"
+
+  # Dynamic fields that only appear when "fade" is selected
+  - name: fade_duration
+    prompt: "Fade Duration (seconds)"
+    help: "How long the fade should take (1-60 seconds)"
+    default: 5
+    range:
+      min: 1
+      max: 60
+    depends_on: "action:fade"
+
+  - name: fade_type
+    prompt: "Fade Type"
+    help: "Type of fade effect"
+    choices: ["in", "out", "in_out", "pulse"]
+    default: "in"
+    depends_on: "action:fade"
+
+# DEPENDENCY SYNTAX:
+# 
+# The 'depends_on' property controls when fields are visible:
+# 
+# Format: "parent_field:value1,value2,value3"
+# 
+# Examples:
+# - depends_on: "action:flash"           # Show only when action is "flash"
+# - depends_on: "action:flash,fade"      # Show when action is "flash" OR "fade"
+# - depends_on: "mode:advanced,expert"   # Show when mode is "advanced" OR "expert"
+#
+# The field will be hidden when the parent field has any other value.
+# Multiple values can be specified separated by commas for OR logic.
