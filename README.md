@@ -102,7 +102,7 @@ Both applications automatically save your settings including:
 - Topic/message history
 - All configuration preferences
 
-Settings are stored in JSON files and loaded automatically on startup.
+Settings are stored in JSON files and loaded automatically on startup.  The configuration files do not exist in the repository but they will be created the first time the application is run.  By defauly these configuration files will be created in the directory from which the program runs.
 
 ## 📝 Template System (Publisher)
 
