@@ -161,4 +161,4 @@ For issues, questions, or contributions, please use the GitHub issue tracker.
 
 ---
 
-**Note**: These applications are designed to work with any standard MQTT broker (Mosquitto, HiveMQ, AWS IoT, etc.) and support MQTT 3.1.1 protocol.
+**Note**: These applications are designed to work with any standard MQTT broker (Mosquitto, HiveMQ, AWS IoT, etc.) and support MQTT 3.1.1 protocol.  These tools were developed with signifant help from AI, and have been used and tested on Windows.
